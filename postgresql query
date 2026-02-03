@@ -1,0 +1,19 @@
+ WITH cte AS(SELECT "SETTLEMENT_DATE" AS date, 
+	SUM("EMBEDDED_SOLAR_GENERATION") AS solgen_total,
+	SUM("EMBEDDED_WIND_GENERATION") AS windgen_total,
+	SUM("EMBEDDED_SOLAR_CAPACITY") AS sol_cap,
+	SUM("EMBEDDED_WIND_CAPACITY") AS wind_cap
+	FROM "2023_energy"
+	GROUP BY date)
+SELECT date, solgen_total, sol_cap, windgen_total, wind_cap,
+	AVG(solgen_total) OVER 
+	(ORDER BY date 
+		ROWS BETWEEN 
+		10 PRECEDING AND CURRENT ROW) AS solgen_ma,
+	AVG(windgen_total) OVER
+	(ORDER BY date ASC
+		ROWS BETWEEN
+		10 PRECEDING AND CURRENT ROW) AS windgen_ma
+FROM cte
+GROUP BY date,  windgen_total, solgen_total, sol_cap, wind_cap
+ORDER BY 1;
