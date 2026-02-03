@@ -1,6 +1,6 @@
 # SQL Portfolio
 
-This is my repository. In here are a collection of SQL projects and queries I have worked on.
+This is my repository. In here are a collection of SQL projects and queries.
 
 **SQL Projects**
 
